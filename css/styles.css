@@ -1,0 +1,531 @@
+:root {
+    --rock-color: radial-gradient(hsl(349, 71%, 52%), hsl(349, 70%, 56%));
+    --paper-color: radial-gradient(hsl(230, 89%, 62%), hsl(230, 89%, 65%));
+    --scissors-color: radial-gradient(hsl(39, 89%, 49%), hsl(40, 84%, 53%));
+
+    --background-color: radial-gradient(hsl(214, 47%, 23%), hsl(237, 49%, 15%));
+    --score-label-color: hsl(229, 64%, 46%);
+    --header-outline-color: hsl(217, 16%, 45%);
+    --text-dark: hsl(229, 25%, 31%);
+
+    --button-size: 300px;
+    --body-padding: 50px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+    user-select: none;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-image: var(--background-color);
+    padding: var(--body-padding);
+    overflow: hidden;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.no-click {
+    pointer-events: none;
+    cursor: default;
+}
+
+.app {
+    display: grid;
+    grid-template-rows: 1fr 100%;
+    height: 100%;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 25px;
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+    border-radius: 20px;
+    outline: 3px solid var(--header-outline-color);
+}
+
+.score-container {
+    background-color: white;
+    text-align: center;
+    width: 150px;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.score-label {
+    color: var(--score-label-color);
+    text-transform: uppercase;
+    letter-spacing: 1.25px;
+    font-weight: 600;
+}
+
+.score {
+    color: var(--text-dark);
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.user-picked .selections {
+    display: none;
+}
+
+.selections {
+    position: relative;
+    display: grid;
+    place-content: center;
+    grid-template-areas: 
+        "paper ... scissors"
+        "... rock ...";
+}
+
+.selections .triangle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.selection-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: var(--button-size);
+    border-radius: 50%;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+.selection-button img {
+    width: 33%;
+    z-index: 1;
+    aspect-ratio: 1 / 1;
+}
+
+.selection-button::after {
+    position: absolute;
+    content: "";
+    width: calc(var(--button-size) * 0.75);
+    height: calc(var(--button-size) * 0.75);
+    border-radius: 50%;
+    background-color: white;
+    border-top: 10px solid hsl(0, 0%, 90%);
+}
+
+.selection-button[data-selection="rock"] {
+    grid-area: rock;
+    background-image: var(--rock-color);
+    border-bottom: 10px solid hsl(0, 75%, 35%);
+}
+
+.selection-button[data-selection="rock"]:hover {
+    box-shadow: 0 0 15px hsl(0, 75%, 50%);
+}
+
+.selection-button[data-selection="paper"] {
+    grid-area: paper;
+    background-image: var(--paper-color);
+    border-bottom: 10px solid hsl(215, 75%, 35%);
+}
+
+.selection-button[data-selection="paper"]:hover {
+    box-shadow: 0 0 15px hsl(215, 75%, 50%);
+}
+
+.selections .selection-button[data-selection="paper"] {
+    transform: translateX(66px);
+}
+
+.selection-button[data-selection="scissors"] {
+    grid-area: scissors;
+    background-image: var(--scissors-color);
+    border-bottom: 10px solid hsl(40, 75%, 35%);
+}
+
+.selection-button[data-selection="scissors"]:hover {
+    box-shadow: 0 0 15px hsl(40, 75%, 50%);
+}
+
+.selections .selection-button[data-selection="scissors"] {
+    transform: translateX(-66px);
+}
+
+.selection-button.winner ~ .circles,
+.selection-button.winner ~ .circles::before,
+.selection-button.winner ~ .circles::after {
+    position: absolute;
+    bottom: 0;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.selection-button.winner ~ .circles {
+    width: 100%;
+    height: 100%;
+    animation: pulse 1s forwards;
+}
+
+.selection-button.winner ~ .circles::before,
+.selection-button.winner ~ .circles::after {
+    content: "";
+    width: var(--button-size);
+    height: var(--button-size);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.selection-button.winner ~ .circles::before {
+    transform: scale(150%);
+    z-index: 1;
+}
+
+.selection-button.winner ~ .circles::after {
+    transform: scale(200%);
+    z-index: -1;
+}
+
+.user-picked .results {
+    display: flex;
+}
+
+.results {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.results-group {
+    position: relative;
+    display: grid;
+    place-items: center;
+    grid-template-areas: 
+        "picked-text"
+        "button";
+}
+
+.results-group .selection-button,
+.results-group .computer-choice-background {
+    grid-area: button;
+}
+
+.picked-text {
+    grid-area: picked-text;
+    color: white;
+    text-transform: uppercase;
+    font-size: 25px;
+    letter-spacing: 1.25px;
+    font-weight: 600;
+    margin-bottom: 65px;
+    text-align: center;
+}
+
+.computer-choice-background {
+    background-color: rgba(0, 0, 0, 0.15);
+    width: calc(var(--button-size) * 0.75);
+    height: calc(var(--button-size) * 0.75);
+    border-radius: 50%;
+}
+
+.computer-selection-button {
+    visibility: hidden;
+}
+
+.computer-picked .computer-selection-button {
+    visibility: visible;
+}
+
+.win-lose-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 250px;
+}
+
+.win-lose-text {
+    color: white;
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.restart-button {
+    font-size: 20px;
+    color: var(--text-dark);
+    width: 100%;
+    padding: 0.8em 0;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-radius: 0.5em;
+    transition: color 200ms;
+}
+
+.restart-button:hover {
+    color: hsl(0, 66%, 50%);
+}
+
+.game-over .win-lose-container {
+    display: block;
+    display: flex;
+}
+
+.rules-button {
+    position: absolute;
+    bottom: var(--body-padding);
+    right: var(--body-padding);
+    font-size: 17px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1.3px;
+    outline: 2px solid white;
+    background-color: transparent;
+    padding: 0.75em 2.5em;
+    border-radius: 0.33em;
+    transition: 
+        background-color 200ms
+        color 200ms;
+}
+
+.rules-button:hover {
+    background-color: white;
+    color: black;
+}
+
+.modal-container.modal-open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    inset: 0;
+    z-index: 100000000000;
+    transition: opacity 200ms;
+}
+
+.modal {
+    background-color: white;
+    width: 450px;
+    height: 500px;
+    padding: 25px 33px;
+    border-radius: 10px;
+}
+
+.modal .top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal .top-section span {
+    font-size: 33px;
+    text-transform: uppercase;
+}
+
+.modal-close-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    width: 50px;
+    height: 50px;
+}
+
+.modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.modal-content > img {
+    width: 100%;
+}
+
+.attribution { 
+    position: absolute;
+    color: white;
+    font-size: 13px; 
+    letter-spacing: 1.1px;
+    text-align: center; 
+}
+
+.attribution a { 
+    color: hsl(200, 100%, 50%);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 200ms;
+}
+
+.attribution a:hover {
+    color: hsl(200, 100%, 40%);
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+@media(max-width: 1000px) {
+    :root {
+        --button-size: 200px;
+    }
+
+    .rules-button {
+        right: 50%;
+        transform: translateX(50%);
+    }
+
+    .app {
+        display: flex;
+        flex-direction: column;
+    }
+
+    section {
+        padding-top: 100px;
+    }
+}
+
+@media(max-width: 800px) {
+    .user-picked .results {
+        display: grid;
+    }
+
+    .selection-button.winner ~ .circles,
+    .selection-button.winner ~ .circles::before,
+    .selection-button.winner ~ .circles::after {
+        top: 0;
+    }
+
+    .results {
+        padding-top: 75px;
+        gap: 50px;
+        grid-template-areas: 
+            "selection1 selection2";
+    }
+
+    .results-group {
+        grid-template-areas: 
+            "button"
+            "picked-text";
+    }
+
+    .results-group:first-of-type {
+        grid-area: selection1;
+    }
+
+    .results-group:last-of-type {
+        grid-area: selection2;
+    }
+
+    .picked-text {
+        margin-bottom: 0;
+        margin-top: 65px;
+    }
+
+    .win-lose-container {
+        transform: translate(50%, -25%);
+        margin-left: calc(var(--body-padding) * 0.25);
+    }
+}
+
+@media(max-width: 650px) {
+    :root {
+        --body-padding: 20px;
+    }
+
+    .selections .triangle {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: scale(0.75) translate(-66%, -66%);
+        z-index: -1;
+    }
+
+    .modal {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+    }
+    
+    .modal .top-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 25px;
+    }
+    
+    .modal-close-button {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media(max-width:375px) {
+    :root {
+        --button-size: 100px;
+    }
+
+    .picked-text {
+        margin-top: 20px;
+    }
+
+    .selections .triangle {
+        left: 50%;
+        top: 50%;
+        transform: scale(0.5) translate(-100%, -50%);
+    }
+
+    .selections {
+        padding-top: 100px;
+    }
+
+    .selections .selection-button[data-selection="paper"] {
+        transform: translateX(40px);
+    }
+
+    .selections .selection-button[data-selection="scissors"] {
+        transform: translateX(-40px);
+    }
+
+    .results {
+        gap: 0;
+    }
+
+    .results-group {
+        width: 100px;
+    }
+
+    .win-lose-container {
+        transform: scale(0.8) translateX(25%);
+    }
+}

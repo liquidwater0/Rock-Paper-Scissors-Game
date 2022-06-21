@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <title>Frontend Mentor | Rock, Paper, Scissors</title>
+  </head>
+  <body>
+    <main class="app">
+      <header class="game-info">
+        <img class="logo" src="images/logo.svg" alt="logo">
+
+        <div class="score-container">
+          <div class="score-label">Score</div>
+          <div class="score" id="score"></div>
+        </div>
+      </header>
+
+      <section class="selections">
+        <button class="selection-button" aria-label="rock" data-selection="rock"><img src="images/icon-rock.svg" alt="rock"></button>
+        <button class="selection-button" aria-label="paper" data-selection="paper"><img src="images/icon-paper.svg" alt="paper"></button>
+        <button class="selection-button" aria-label="scissors" data-selection="scissors"><img src="images/icon-scissors.svg" alt="scissors"></button>
+        <img class="triangle" src="images/bg-triangle.svg" alt="triangle">
+      </section>
+
+      <section class="results">
+        <div class="results-group">
+          <div class="picked-text">You Picked</div>
+          <button class="no-click selection-button" id="userSelectionButton"></button>
+          <div class="circles"></div>
+        </div>
+        <div class="win-lose-container">
+          <div class="win-lose-text" id="winLoseText"></div>
+          <button class="restart-button" id="restartButton">Play Again</button>
+        </div>
+        <div class="results-group">
+          <div class="picked-text">The House Picked</div>
+          <div class="computer-choice-background"></div>
+          <button class="no-click selection-button computer-selection-button" id="computerSelectionButton"></button>
+          <div class="circles"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-container" id="rulesModal">
+      <div class="modal">
+        <div class="top-section">
+          <span>Rules</span>
+
+          <button class="modal-close-button" id="modalCloseButton" aria-label="close button">
+            <img src="images/icon-close.svg" alt="close">
+          </button>
+        </div>
+
+        <div class="modal-content">
+          <img src="images/image-rules.svg" alt="rules">
+        </div>
+      </div>
+    </div>
+
+    <button class="rules-button" id="rulesButton">Rules</button>
+    
+    <div class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+      Coded by <a href="https://www.frontendmentor.io/profile/liquidwater0">liquidwater0</a>.
+    </div>
+
+    <script src="js/main.js" type="module"></script>
+  </body>
+</html>
