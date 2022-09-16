@@ -30,7 +30,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [url](url)
+- Solution URL: [https://www.frontendmentor.io/solutions/rock-paper-scissors-game-made-in-react-and-sass-H-a20gD6-c](https://www.frontendmentor.io/solutions/rock-paper-scissors-game-made-in-react-and-sass-H-a20gD6-c)
 - Live Site URL: [https://liquidwater0.github.io/Rock-Paper-Scissors-Game/](https://liquidwater0.github.io/Rock-Paper-Scissors-Game/)
 
 ## My process
