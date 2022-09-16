@@ -1,0 +1,58 @@
+@use "./variables" as *;
+
+.modal-container {
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100000000000;
+
+    &.open {
+        display: flex;
+    }
+
+    &.closed {
+        display: none;
+    }
+}
+
+.modal {
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 33px;
+
+        .modal-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: $dark-text;
+        }
+
+        .modal-close-button {
+            background-color: transparent;
+
+            path {
+                transition: fill 250ms;
+            }
+
+            &:hover path {
+                fill: black;
+            }
+        }
+    }
+
+    .modal-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        height: 100%;
+    }
+}
