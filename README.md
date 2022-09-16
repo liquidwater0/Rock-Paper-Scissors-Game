@@ -40,7 +40,7 @@ Users should be able to:
 - Semantic HTML5 markup
 - Flexbox
 - CSS Grid
-- [Sass] (https://sass-lang.com/) - CSS Preprocessor
+- [Sass](https://sass-lang.com/) - CSS Preprocessor
 - [React](https://reactjs.org/) - JS library
 
 ### Continued development
